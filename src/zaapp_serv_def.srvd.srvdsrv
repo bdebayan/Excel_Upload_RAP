@@ -1,0 +1,5 @@
+@EndUserText.label: 'service def'
+define service Zaapp_serv_def {
+  expose zapp_c_table      as apptable;
+  expose zapp_c_curr_table as currtable;
+}

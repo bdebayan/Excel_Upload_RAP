@@ -1,0 +1,27 @@
+projection;
+strict ( 2 );
+use draft;
+use side effects;
+
+define behavior for zapp_c_table alias app
+{
+  use update;
+
+  use action LoadExcelContent;
+
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Resume;
+  use action Prepare;
+
+  use association _currency { create; with draft; }
+}
+
+define behavior for zapp_c_curr_table alias country
+{
+  use update;
+  use delete;
+
+  use association _app { with draft; }
+}

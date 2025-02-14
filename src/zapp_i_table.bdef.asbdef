@@ -1,0 +1,62 @@
+managed implementation in class zbp_app_i_table unique;
+strict ( 2 );
+with draft;
+
+define behavior for zapp_i_table alias app
+with unmanaged save
+draft table zapp_table_d
+etag master LocalLastChanged
+lock master total etag LastChanged
+authorization master ( instance )
+{
+  internal create;
+  update;
+  internal delete;
+
+  draft action Edit;
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare;
+  field ( readonly ) AppId;
+
+  action ( features : instance ) LoadExcelContent parameter ZBS_S_DRPExcelPopup1 result [1] $self;
+  side effects
+  {
+    // Side effect for refreshing data of an entity
+    action LoadExcelContent affects entity _currency;
+
+  }
+  mapping for zapp_table
+    {
+      AppId            = app_id;
+      ExcelAttachment  = excel_attachment;
+      ExcelMimetype    = excel_mimetype;
+      ExcelFilename    = excel_filename;
+      LocalLastChanged = locallastchanged;
+      LastChanged      = lastchanged;
+    }
+  association _currency { create; }
+}
+
+define behavior for zapp_i_curr_table alias country
+with unmanaged save
+draft table zbs_currtab_d
+lock dependent by _app
+authorization dependent by _app
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( readonly ) AppId;
+  //field ( readonly : update )
+  //Country;
+  mapping for zapp_curr_table
+    {
+      AppId   = App_Id;
+      Country = country;
+      Ranking = ranking;
+      text    = text;
+    }
+  association _app { with draft; }
+}

@@ -1,0 +1,34 @@
+@Metadata.layer: #CUSTOMER
+@UI.headerInfo: { typeName: 'App',
+                  typeNamePlural: 'Apps' }
+
+annotate entity zapp_c_table with
+{
+  @UI.facet: [
+               { id: 'idCurrencyTable',
+                 label: 'Country Table',
+                 position: 20,
+                 type: #LINEITEM_REFERENCE,
+                 targetElement: '_currency' },
+               { id: 'idFiles',
+                 label: 'Files',
+                 position: 10,
+                 type: #IDENTIFICATION_REFERENCE,
+                 targetQualifier: 'FILE' } ]
+  @UI.lineItem: [ { position: 10 } ]              
+  AppId;
+  @UI:{
+  identification: [{ position: 10, qualifier: 'FILE' }]
+  }
+  @EndUserText.label: 'Excel'
+  ExcelAttachment;
+  @UI.hidden: true
+  ExcelMimetype;
+  @UI.hidden: true
+  ExcelFilename;
+  @UI.hidden: true
+  Locallastchanged;
+  @UI.hidden: true
+  Lastchanged;
+
+}
